@@ -42,10 +42,20 @@ sum' :: (Num a) => [a] -> a
 sum' [] = 0 
 sum' (x:xs) = x + sum' xs --sum is  head (first element) plus sum tail (remaining elements)
 
-bmiTell :: (RealFloat a) => a -> a -> String 
+bmiTell :: (RealFloat a,Show a) => a -> a -> String
 bmiTell weight height
-    | bmi <= 18.5 = "You're underweight, you emo, you!"  ++ show bmi
-    | bmi <= 25.0 = "You're supposedly normal. Pffft, I bet you're ugly!"  
-    | bmi <= 30.0 = "You're fat! Lose some weight, fatty!"  
-    | otherwise                 = "You're a whale, congratulations!" 
-    where bmi=weight / height ^ 2 
+    | bmi <= 18.5 = "You're underweight, you emo, you!" ++ show (bmi)
+    | bmi <= 25.0 = "You're supposedly normal. Pffft, I bet you're ugly!" ++ show (bmi)
+    | bmi <= 30.0 = "You're fat! Lose some weight, fatty!"  ++show (bmi)
+    | otherwise = "You're a whale, congratulations!" ++show (bmi)
+    where bmi= weight / height ^ 2
+	
+maximum' :: (Ord a) => [a] -> a  
+maximum' [] = error "maximum of empty list"  
+maximum' [x] = x  
+maximum' (x:xs)   
+    | x > maxTail = x  
+    | otherwise = maxTail  
+    where maxTail = maximum' xs
+          
+        
