@@ -23,9 +23,9 @@ lucky 7 = "LUCKY NUMBER SEVEN!"
 lucky x = "Sorry, you're out of luck, pal!"  
  
  
-factorial' :: Integer -> Integer  --recursively implemented
+factorial' :: Integer -> Integer 
 factorial' 0 = 1  
-factorial' n = n * factorial (n - 1)  
+factorial' n = n * factorial (n - 1) --recurse 
 
 addVectors :: (Num a) => (a, a) -> (a, a) -> (a, a)  
 addVectors (x1, y1) (x2, y2) = (x1 + x2, y1 + y2)  
@@ -58,4 +58,14 @@ maximum' (x:xs)
     | otherwise = maxTail  
     where maxTail = maximum' xs
           
-        
+
+cylinderArea :: (RealFloat a ) => a -> a -> a
+cylinderArea r h = 
+    let sideArea = 2 * pi * r * h 
+        topArea = pi * r^2
+    in sideArea + 2 * topArea
+
+describeList :: [a] -> String  
+describeList xs = "The list is " ++ case xs of [] -> "empty."  
+                                               [x] -> "a singleton list."   
+                                               xs -> "a longer list." 
