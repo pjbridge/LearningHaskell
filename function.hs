@@ -57,7 +57,12 @@ maximum' (x:xs)
     | x > maxTail = x  
     | otherwise = maxTail  
     where maxTail = maximum' xs
-          
+
+maximum2' :: (Ord a) => [a] -> a  
+maximum2' [] = error "maximum of empty list"  
+maximum2' [x] = x  
+maximum2' (x:xs) = max x (maximum' xs)
+
 
 cylinderArea :: (RealFloat a ) => a -> a -> a
 cylinderArea r h = 
@@ -69,3 +74,35 @@ describeList :: [a] -> String
 describeList xs = "The list is " ++ case xs of [] -> "empty."  
                                                [x] -> "a singleton list."   
                                                xs -> "a longer list." 
+
+
+take' :: (Num i, Ord i) => i-> [a] -> [a]
+take' n _
+    | n <= 0 = [] 
+take' _ [] = []
+take' n (x:xs) = x:take' (n-1) xs
+
+reverse' :: [a] -> [a]
+reverse' [] = []
+reverse (x:xs) = reverse' xs ++ [x]
+
+
+repeat' x = repeat x:repeat' x
+
+zip' :: [a] -> [b]  -> [(a,b)]
+zip' _[] = []
+zip' [] _ = []
+zip' (x:xs) (y:ys) = (x,y):zip' xs ys
+
+elem' :: (Eq a) => a -> [a] -> Bool 
+elem' a [] = False 
+elem' a (x:xs)
+    | a == x    = True
+    | otherwise = a `elem'` xs
+
+quicsort :: (Ord a) => [a] -> [a]
+quicsort [] = []
+quicsort (x:xs)=
+    let smallerSorted = quicsort [a | a <- xs, a <= x]
+        biggerSorted = quicsort [a | a <- xs, a > x]
+    in smallerSorted ++ [x] ++ biggerSorted
