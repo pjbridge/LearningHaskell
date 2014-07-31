@@ -106,3 +106,40 @@ quicsort (x:xs)=
     let smallerSorted = quicsort [a | a <- xs, a <= x]
         biggerSorted = quicsort [a | a <- xs, a > x]
     in smallerSorted ++ [x] ++ biggerSorted
+
+multThree :: (Num a) => a -> a -> a -> a  
+multThree x y z = x * y * z 
+
+compareWithHundred :: (Num a, Ord a) => a -> Ordering  
+compareWithHundred = compare 100 --create at new function by partial application of compare
+
+applyTwice :: (a -> a) -> a -> a 
+applyTwice f x = f (f x) --takes a function and a value argument and applies then function twice to the value
+
+zipWith' :: (a -> b -> c) -> [a] -> [b] -> [c] --takes a function and two lists. Performs the function on each element and joins the lists
+zipWith' _ [] _ = []
+zipWith' _ _ [] = []
+zipWith' f (x:xs) (y:ys) = f x y : zipWith' f xs ys 
+
+map' :: (a -> b) -> [a] -> [b] --takes a function and a list, performs the function on each element and return resulting list
+map' _ [] = []
+map' f (x:xs) = f x : map' f xs
+
+filter' :: (a -> Bool) -> [a] -> [a]
+filter' _ [] = []
+filter' p (x:xs)
+    | p x       = x : filter' p xs
+    | otherwise = filter' p xs --skip and try next if filter returns false
+
+quicsort' :: (Ord a) => [a] -> [a]--same as quicksort, but using filter instead of list comprehension
+quicsort' [] = []
+quicsort' (x:xs) = 
+    let smallerSorted = quicsort' (filter' (<=x) xs)
+        biggerSorted = quicsort' (filter' (>x) xs) 
+    in smallerSorted ++ [x] ++ biggerSorted       
+
+largestDivisible :: (Integral a) => [a]  --return list of all elements that are divisible by 3829 from list of [100000..0]
+largestDivisible = filter p [100000,99999..0] 
+    where p x = x `mod` 3829 == 0 
+
+
