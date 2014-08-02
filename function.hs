@@ -116,6 +116,7 @@ compareWithHundred = compare 100 --create at new function by partial application
 applyTwice :: (a -> a) -> a -> a 
 applyTwice f x = f (f x) --takes a function and a value argument and applies then function twice to the value
 
+--Higher order functions
 zipWith' :: (a -> b -> c) -> [a] -> [b] -> [c] --takes a function and two lists. Performs the function on each element and joins the lists
 zipWith' _ [] _ = []
 zipWith' _ _ [] = []
@@ -142,4 +143,10 @@ largestDivisible :: (Integral a) => [a]  --return list of all elements that are 
 largestDivisible = filter p [100000,99999..0] 
     where p x = x `mod` 3829 == 0 
 
+--lambda
+highNumbers ::(Ord a, Num a) => [a] -> [a]
+highNumbers xs =  filter' (\c-> c > 19) xs
 
+--folds
+sum'' :: (Num a) => [a] -> a 
+sum'' xs = foldl (\acc x -> acc +x) 0 xs 
