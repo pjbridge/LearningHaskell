@@ -1,3 +1,5 @@
+import Geometry
+
 doubleMe :: Int->Int
 doubleMe x=x+x
 doubleUs x y = doubleMe x + doubleMe y
@@ -149,4 +151,53 @@ highNumbers xs =  filter' (\c-> c > 19) xs
 
 --folds
 sum'' :: (Num a) => [a] -> a 
-sum'' xs = foldl (\acc x -> acc +x) 0 xs 
+sum''  = foldl (\acc x -> acc +x) 0  
+
+elem'' :: (Eq a) => a -> [a] -> Bool
+elem'' y ys = foldl(\acc x -> if x == y then True else acc) False ys
+
+map'' :: (a -> b) -> [a] -> [b]
+map'' f  = foldr (\x acc -> f x : acc) []  
+
+maximum'' :: (Ord a) =>[a] -> a 
+maximum'' = foldr1 (\acc x -> if x > acc then x else acc) 
+
+reverse'' :: [a] -> [a]
+reverse'' = foldl (\acc x -> x:acc) []
+
+product'' :: (Num a) => [a] -> a 
+product'' = foldr1 (*)
+
+filter'' :: (a -> Bool) -> [a] -> [a]
+filter'' p = foldr (\x acc -> if p x then x:acc else acc) []
+
+head'' :: [a] -> a 
+head'' = foldr1 (\x _ ->x)
+
+last'' :: [a] -> a 
+last'' = foldl1 (\x _ ->x)
+
+--scan 
+-- How many elements does it take for the sum of the roots of all natural numbers to exceed 1000?
+sqrtSums :: Int 
+sqrtSums = length (takeWhile (< 100) (scanl1 (+) (map  sqrt [1..]))) + 1
+
+
+--Function application with $
+-- When a $ is encountered, the expression on its right is applied as the parameter to the function on its left.
+
+--Function composition
+--In mathematics, function composition is defined like this:  (f . g)(x) = f(g(x)), meaning that composing two functions produces a new function that, when called with a parameter, say, x is the equivalent of calling g with the parameter x and then calling the f with that result.
+oddSquareSum :: Integer  
+oddSquareSum = sum (takeWhile (<10000) (filter odd (map (^2) [1..])))   
+
+--same function in point free style:
+oddSquareSum' :: Integer  
+oddSquareSum' = sum . takeWhile (<10000) . filter odd . map (^2) $ [1..]  
+
+--same function with let declaration of intermediate result:
+oddSquareSum'' :: Integer  
+oddSquareSum'' =   
+    let oddSquares = filter odd $ map (^2) [1..]  
+        belowLimit = takeWhile (<10000) oddSquares  
+    in  sum belowLimit  
